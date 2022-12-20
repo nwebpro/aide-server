@@ -38,24 +38,92 @@ app.use(cors())
  =========================*/
  const DataTable = client.db('aide').collection('datatable')
  const ImageUpload = client.db('aide').collection('image')
+ const Users = client.db('aide').collection('users')
+ const Products = client.db('aide').collection('products')
 
-//  app.post('/api/v1/aide/table-data', async (req, res) => {
-//     try {
-//         const tableData = req.body
-//         const tableDatas = await DataTable.insertOne(tableData)
-//         res.send({
-//             success: true,
-//             message: 'Successfully add a new data',
-//             data: tableDatas
-//         })
-//     } catch (error) {
-//         res.send({
-//             success: false,
-//             error: error.message
-//         })
-//     }
-// })
+// All Users Api
+app.post('/api/v1/aide/add/user', async (req, res) => {
+    try {
+        const user = req.body
+        const users = await Users.insertOne(user)
+        res.send({
+            success: true,
+            message: 'Successfully add a User',
+            data: users
+        })
+    } catch (error) {
+        res.send({
+            success: false,
+            error: error.message
+        })
+    }
+})
+app.get('/api/v1/aide/users',  async (req, res) => {
+    try {
+        const users = await Users.find({}).toArray()
+        res.send({
+            success: true,
+            message: 'Successfully all user loaded!',
+            data: users
+        })
+    } catch (error) {
+        res.send({
+            success: false,
+            error: error.message
+        })
+    }
+})
 
+// All Product Api
+app.post('/api/v1/aide/add/product', async (req, res) => {
+    try {
+        const product = req.body
+        const products = await Products.insertOne(product)
+        res.send({
+            success: true,
+            message: 'Successfully add a product',
+            data: products
+        })
+    } catch (error) {
+        res.send({
+            success: false,
+            error: error.message
+        })
+    }
+})
+app.get('/api/v1/aide/products',  async (req, res) => {
+    try {
+        const products = await Products.find({}).toArray()
+        res.send({
+            success: true,
+            message: 'Successfully all products loaded!',
+            data: products
+        })
+    } catch (error) {
+        res.send({
+            success: false,
+            error: error.message
+        })
+    }
+})
+
+// Datatable
+app.post('/api/v1/aide/table-data', async (req, res) => {
+    try {
+        const tableData = req.body
+        const tableDatas = await DataTable.insertOne(tableData)
+        res.send({
+            success: true,
+            message: 'Successfully add a new data',
+            data: tableDatas
+        })
+    } catch (error) {
+        res.send({
+            success: false,
+            error: error.message
+        })
+    }
+})
 app.get('/api/v1/aide/datatable',  async (req, res) => {
     try {
         const datatables = await DataTable.find({}).toArray()
