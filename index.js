@@ -89,6 +89,47 @@ app.delete('/api/v1/aide/user/:userId', async (req, res) => {
         })
     }
 })
+app.get("/api/v1/aide/user/edit/:userId", async (req, res) => {
+    try {
+        const userId = req.params.userId
+        const users = await Users.findOne({ _id: ObjectId(userId) })
+        res.send({
+            success: true,
+            message: 'Successfully got the Single User Data',
+            data: users,
+        });
+    } catch (error) {
+        res.send({
+            success: false,
+            error: error.message,
+        });
+    }
+})
+app.put("/api/v1/aide/user/update/:userId", async (req, res) => {
+    try {
+        const userId = req.params.userId
+        const users = await Users.updateOne({ _id: ObjectId(userId) }, { $set: req.body })
+        if (users.matchedCount) {
+            res.send({
+                success: true,
+                message: "Successfully updated the User",
+            });
+        } else {
+            res.send({
+                success: false,
+                error: "Couldn't update  the User",
+            });
+        }
+    } catch (error) {
+        res.send({
+            success: false,
+            error: error.message,
+        });
+    }
+})
+
+
+
 
 // All Product Api
 app.post('/api/v1/aide/add/product', async (req, res) => {
@@ -138,6 +179,34 @@ app.delete('/api/v1/aide/product/:productId', async (req, res) => {
         })
     }
 })
+app.get("/api/v1/aide/product/edit/:productId", async (req, res) => {
+    try {
+        const productId = req.params.productId
+        const products = await Products.findOne({ _id: ObjectId(productId) })
+        res.send({
+            success: true,
+            message: 'Successfully got the Single Product Data',
+            data: products,
+        });
+    } catch (error) {
+        res.send({
+            success: false,
+            error: error.message,
+        });
+    }
+})
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Datatable
 app.post('/api/v1/aide/table-data', async (req, res) => {
